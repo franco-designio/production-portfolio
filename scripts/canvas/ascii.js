@@ -1,4 +1,5 @@
 // scripts/canvas/ascii.js
+import * as THREE from 'three';
 
 export function initOptimizedAscii() {
     const canvas = document.getElementById('ascii-canvas');

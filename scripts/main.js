@@ -1,5 +1,7 @@
 // scripts/main.js
 
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { initSmoothScroll } from './core/lenis.js';
 import { initCursor } from './core/cursor.js';
 import { initOptimizedAscii } from './canvas/ascii.js';
