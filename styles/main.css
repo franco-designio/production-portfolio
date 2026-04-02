@@ -1,1 +1,466 @@
+/* styles/main.css */
+:root {
+    /* High-contrast Black & White */
+    --bg: #0a0a0a;
+    --fg: #f8f8f8;
 
+    /* Customize the individual ASCII shapes color */
+    --shape-eye: #ffffff;
+    --shape-torus: #e4e4e4;
+    --shape-pawn: #ffd500;
+    --shape-logo: #e4e4e4;
+}
+
+/* Core typographic and color enforcements - Editorial Reset */
+body {
+    background-color: var(--bg);
+    color: var(--fg);
+    font-family: 'Instrument Sans', sans-serif;
+    letter-spacing: -0.01em;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    cursor: auto;
+}
+
+/* Hardware cursor applied only to fine pointers */
+@media (pointer: fine) {
+    body {
+        cursor: none;
+    }
+}
+
+::selection {
+    background-color: var(--fg);
+    color: var(--bg);
+}
+
+/* Editorial Typography Scaling & Families */
+.font-serif {
+    font-family: 'Instrument Serif', serif;
+    font-weight: 400;
+}
+
+.text-display {
+    font-family: 'Instrument Serif', serif;
+    font-size: clamp(2.5rem, 6vw, 8.5rem);
+    line-height: 1;
+    font-weight: 400;
+}
+
+.text-huge {
+    font-family: 'Instrument Serif', serif;
+    font-size: clamp(3rem, 10vw, 15rem);
+    line-height: 0.85;
+    font-weight: 400;
+}
+
+.text-body {
+    font-family: 'Instrument Sans', sans-serif;
+    font-size: clamp(0.875rem, 1.25vw, 1.5rem);
+    line-height: 1.5;
+    font-weight: 400;
+}
+
+.text-meta {
+    font-family: 'Instrument Sans', sans-serif;
+    font-size: clamp(0.75rem, 0.8vw, 1rem);
+    line-height: 1.2;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-weight: 500;
+}
+
+/* Custom Cursor */
+#cursor-dot {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 24px;
+    height: 24px;
+    background-color: #fff;
+    mix-blend-mode: difference;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9999;
+    transform: translate(-50%, -50%);
+    transition: width 0.3s cubic-bezier(0.25, 1, 0.5, 1), height 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+#cursor-dot.hovered {
+    width: 96px;
+    height: 96px;
+}
+
+/* Fix scroll trap on mobile for Matter.js & apply grab cursor */
+#physics-container {
+    touch-action: pan-y !important;
+    cursor: grab !important;
+}
+
+#physics-container:active {
+    cursor: grabbing !important;
+}
+
+/* Uncoated Paper Noise Texture */
+.noise-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    pointer-events: none;
+    z-index: 9998;
+    opacity: 0.05;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+}
+
+.rotated-cta {
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
+    transform: rotate(180deg);
+}
+
+/* Image Parallax Utilities */
+.clip-reveal {
+    clip-path: inset(100% 0 0 0);
+    overflow: hidden;
+}
+
+.parallax-image {
+    transform: scale(1.2);
+    transform-origin: center;
+}
+
+/* Line Masking Utility for Text */
+.line-mask {
+    overflow: hidden;
+    display: inline-block;
+    vertical-align: top;
+}
+
+.line-mask-inner {
+    display: inline-block;
+    transform: translateY(100%);
+}
+
+::-webkit-scrollbar {
+    display: none;
+}
+
+html,
+body {
+    scrollbar-width: none;
+    overflow-x: hidden;
+    overscroll-behavior-x: none;
+    max-width: 100%;
+}
+
+/* Rotating Title Animation Utilities */
+#role-container {
+    display: grid;
+    align-items: center;
+}
+
+.role-wrapper {
+    transition: all 800ms cubic-bezier(0.16, 1, 0.3, 1);
+    grid-column: 1 / -1;
+    grid-row: 1 / -1;
+    width: 100%;
+    height: max-content;
+    white-space: nowrap;
+    display: inline-block;
+}
+
+.role-hidden-bottom {
+    transform: translateY(120%);
+    opacity: 0;
+    filter: blur(4px);
+    pointer-events: none;
+}
+
+.role-hidden-top {
+    transform: translateY(-120%);
+    opacity: 0;
+    filter: blur(4px);
+    pointer-events: none;
+}
+
+.role-visible {
+    transform: translateY(0);
+    opacity: 1;
+    filter: blur(0);
+    pointer-events: auto;
+}
+
+/* Rotating Quote Animation Utilities */
+.quote-wrapper {
+    grid-column: 1 / -1;
+    grid-row: 1 / -1;
+    width: max-content;
+    height: max-content;
+    display: block;
+    will-change: transform, opacity, filter;
+}
+
+#quote-top-dynamic, #quote-bottom-dynamic {
+    display: inline-grid;
+    vertical-align: bottom;
+    transition: width 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.quote-hidden-bottom {
+    transform: translateY(60%);
+    opacity: 0;
+    filter: blur(8px);
+    pointer-events: none;
+}
+
+.quote-hidden-top {
+    transform: translateY(-60%);
+    opacity: 0;
+    filter: blur(8px);
+    pointer-events: none;
+}
+
+.quote-visible {
+    transform: translateY(0);
+    opacity: 1;
+    filter: blur(0);
+    pointer-events: auto;
+}
+
+/* ASCII Tracking Core Styles */
+#ascii-container {
+    white-space: pre;
+    transform-origin: center;
+    font-family: 'Courier New', Courier, monospace;
+    font-weight: bold;
+    letter-spacing: 0;
+    text-align: left;
+}
+
+/* Mobile Touch Optimizations & Editorial Squeeze Updates */
+@media (pointer: coarse) {
+    #cursor-dot {
+        display: none !important;
+    }
+}
+
+/* Stack Process cards horizontally via GSAP Scroll on Mobile */
+@media (max-width: 768px) {
+    .process-slider {
+        padding-bottom: 2rem !important;
+        padding-left: 7.5vw !important;
+        padding-right: 7.5vw !important;
+    }
+
+    .process-block-card {
+        width: 85vw !important;
+        min-height: 400px !important;
+        height: 50vh !important;
+        flex-shrink: 0 !important;
+    }
+
+    .process-block-card.mobile-active video {
+        opacity: 1 !important;
+        transform: scale(1) !important;
+    }
+
+    .process-block-card.mobile-active .bg-gradient-to-t {
+        opacity: 1 !important;
+    }
+
+    .process-block-card.mobile-active .p-num,
+    .process-block-card.mobile-active .p-title,
+    .process-block-card.mobile-active .p-desc {
+        color: white !important;
+    }
+
+    .role-wrapper {
+        white-space: normal !important;
+        line-height: 1.05 !important;
+        width: 100%;
+        display: block;
+    }
+
+    .marquee-word--t1 {
+        padding: 6px 20px !important;
+    }
+
+    .marquee-word--t2,
+    .marquee-word--t3 {
+        padding: 4px 12px !important;
+    }
+
+    .expertise-section {
+        position: relative;
+        -webkit-mask-image: linear-gradient(to right,
+                rgba(0, 0, 0, 0) 0%,
+                rgba(0, 0, 0, 1) 15%,
+                rgba(0, 0, 0, 1) 85%,
+                rgba(0, 0, 0, 0) 100%);
+        mask-image: linear-gradient(to right,
+                rgba(0, 0, 0, 0) 0%,
+                rgba(0, 0, 0, 1) 15%,
+                rgba(0, 0, 0, 1) 85%,
+                rgba(0, 0, 0, 0) 100%);
+    }
+}
+
+/* Prefers Reduced Motion Fallbacks */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+
+    #ascii-wrapper {
+        display: none !important;
+    }
+
+    .noise-overlay {
+        opacity: 0.02;
+    }
+}
+
+/* Hero Styling */
+.scanlines {
+    background: linear-gradient(to bottom, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0) 50%, rgba(0, 0, 0, 0.25) 50%, rgba(0, 0, 0, 0.25));
+    background-size: 100% 4px;
+}
+
+.hero-text-pure {
+    font-size: clamp(1.2rem, 2.5vw, 2.8rem);
+    font-weight: 400;
+    color: #a3a3a3;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    transition: all 0.3s ease;
+    pointer-events: auto;
+    white-space: nowrap;
+    line-height: 1;
+}
+
+.hero-text-pure span {
+    display: inline-block;
+    transition: color 0.3s ease;
+}
+
+.interactive-phrase {
+    cursor: pointer;
+}
+
+.interactive-phrase:hover span {
+    color: #ffffff !important;
+    text-shadow: 0 0 12px rgba(255, 255, 255, 0.4);
+}
+
+@keyframes floatPhrase {
+
+    0%,
+    100% {
+        transform: translateY(0px) translateX(0px) rotate(0deg);
+    }
+
+    50% {
+        transform: translateY(-10px) translateX(3px) rotate(0.5deg);
+    }
+}
+
+.float-anim-1 {
+    animation: floatPhrase 4s ease-in-out infinite;
+}
+
+.float-anim-2 {
+    animation: floatPhrase 5s ease-in-out infinite reverse;
+}
+
+.float-anim-3 {
+    animation: floatPhrase 6s ease-in-out infinite 1s;
+}
+
+.glitch-full,
+.glitch-partial {
+    font-family: 'Instrument Serif', serif;
+    min-width: max-content;
+}
+
+/* ========================================== */
+/* EXPERTISE MARQUEE STYLES (Desktop & Mobile)*/
+/* ========================================== */
+.expertise-section {
+    position: relative;
+    -webkit-mask-image: linear-gradient(to right, transparent 0%, black 9%, black 91%, transparent 100%);
+    mask-image: linear-gradient(to right, transparent 0%, black 9%, black 91%, transparent 100%);
+}
+
+.marquee-band {
+    overflow: hidden;
+    position: relative;
+}
+
+.marquee-band-inner {
+    display: flex;
+    align-items: center;
+    white-space: nowrap;
+    width: max-content;
+    will-change: transform;
+}
+
+.marquee-set {
+    display: inline-flex;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+.marquee-band-divider {
+    height: 1px;
+    background: rgba(255, 255, 255, 0.035);
+}
+
+.marquee-word {
+    white-space: nowrap;
+    flex-shrink: 0;
+    will-change: opacity;
+    color: rgb(255, 255, 255);
+}
+
+.marquee-word--t1 {
+    font-family: 'Instrument Serif', serif;
+    font-style: italic;
+    font-weight: 400;
+    font-size: clamp(24px, 6.5vw, 32px);
+    padding: 11px 28px;
+    text-shadow: 0 0 10px rgba(0, 0, 0, 1), 0 0 20px rgba(0, 0, 0, 1), 0 0 35px rgba(0, 0, 0, 1), 0 2px 4px rgba(0, 0, 0, 1);
+}
+
+.marquee-word--t2 {
+    font-family: 'Instrument Sans', sans-serif;
+    font-weight: 500;
+    font-size: clamp(14px, 3.5vw, 16px);
+    padding: 9px 16px;
+    letter-spacing: 0.04em;
+    text-shadow: 0 0 8px rgba(0, 0, 0, 1), 0 0 16px rgba(0, 0, 0, 1), 0 0 24px rgba(0, 0, 0, 1), 0 2px 4px rgba(0, 0, 0, 1);
+}
+
+.marquee-word--t3 {
+    font-family: 'Instrument Sans', sans-serif;
+    font-weight: 500;
+    font-size: clamp(12px, 2.5vw, 14px);
+    padding: 8px 13px;
+    letter-spacing: 0.06em;
+    text-shadow: 0 0 8px rgba(0, 0, 0, 1), 0 0 16px rgba(0, 0, 0, 1), 0 0 24px rgba(0, 0, 0, 1), 0 2px 4px rgba(0, 0, 0, 1);
+}
+
+.marquee-sep {
+    width: 3px;
+    height: 3px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.18);
+    flex-shrink: 0;
+    display: inline-block;
+    vertical-align: middle;
+    margin: 0 2px;
+}
